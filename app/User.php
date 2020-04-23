@@ -29,20 +29,20 @@ class User extends Authenticatable
 
      /*faz com que não exiba o campo password no json*/
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token'
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
+   
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'email_verified_at' => 'datetime'
     ];
 
     public function store(){
         return  $this->hasOne(Store::class);
+    }
+
+    public function orders(){
+        return $this->hasMany(UserOrder::class);
     }
 
     

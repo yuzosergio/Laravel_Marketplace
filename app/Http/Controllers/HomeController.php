@@ -12,11 +12,15 @@ class HomeController extends Controller
    public function __construct(Product $product){
        $this->product = $product;
    }
+
     public function index()
     {
+
         //exibe 8 produto na home
-        $products = $this->product->limit(8)->orderBy('id','DESC')->get();
-        return view('welcome', compact('products'));
+        $products = $this->product->limit(6)->orderBy('id','DESC')->get();
+        $stores = \App\Store::limit(3)->orderBy('logo','DESC')->get();
+
+        return view('welcome', compact('products', 'stores'));
     }
 
     public function single($slug){

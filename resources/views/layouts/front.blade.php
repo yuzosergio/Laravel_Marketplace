@@ -13,9 +13,10 @@
             margin-bottom: 40px;
         }
     </style>
+    @yield('stylesheets')
 </head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 40px;">
+<body class="bg-danger">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 40px;">
 
     <a class="navbar-brand" href="{{route('home')}}">Marketplace L6</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,6 +29,13 @@
             <li class="nav-item @if(request()->is('/')) active @endif">
                 <a class="nav-link" href="{{route('home')}}">Home <span class="sr-only">(current)</span></a>
             </li>
+            
+            @foreach($categories as $category)
+                <li class="nav-item @if(request()->is('category/' . $category->slug)) active @endif">
+                     <a class="nav-link" href="{{route('category.single',['slug' => $category->slug])}}">{{$category->name}}</a>
+                </li>
+            @endforeach
+
         </ul>
 
                 <div class="my-2 my-lg-0">
@@ -54,5 +62,7 @@
     @include('flash::message')
     @yield('content')
 </div>
+
+@yield('scripts')
 </body>
 </html>
