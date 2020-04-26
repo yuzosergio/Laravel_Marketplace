@@ -29,12 +29,16 @@ Route::prefix('checkout')->name('checkout.')->group(function(){
 	Route::get('/thanks', 'CheckoutController@thanks')->name('thanks');
 });
 
-Route::group(['middleware' => ['auth']], function(){
 
-	Route::get('my-orders', 'UserOrderController@index')->name('user.orders');
-});
+
+Route::group(['middleware' => ['auth']], function(){
+	Route::get('my-orders', 'UserOrderController@index')->name('user.orders')->middleware('auth');
+	
 	Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function(){
 
+		Route::get('notifications', 'NotificationController@notifications')->name('notifications.index');
+		Route::get('notifications/read-all', 'NotificationController@readAll')->name('notifications.read.all');
+		Route::get('notifications/read/{notification}', 'NotificationController@read')->name('notifications.read');
 //	Route::prefix('stores')->name('stores.')->group(function(){
 //
 //		Route::get('/', 'StoreController@index')->name('index');
@@ -53,6 +57,7 @@ Route::group(['middleware' => ['auth']], function(){
 
 		Route::get('orders/my', 'OrdersController@index')->name('orders.my');
 	});
+});
 Auth::routes();
 
 
@@ -144,6 +149,22 @@ Route::get('/model', function(){
 //
 //	dd($product->categories()->sync([2]));
 
+	$product = \App\Product::find(49);
 
+	return $product->categories;
+
+});
+
+Route::get('not', function(){
+	//$user = \App\User::find(40);
+	//$user->notify(new \App\Notifications\StoreReceiveNewOrder());
+
+	//$notifications = $user->notifications->first();
+	 //$notifications->markAsRead();
+	 
+
+	 
+
+	//return $user->readNotifications->count();
 });
 

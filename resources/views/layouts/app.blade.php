@@ -34,6 +34,12 @@
 
     <div class="my-2 my-lg-0">
     <ul class="navbar-nav mr-auto">
+      <li class="bav-item">
+         <a href="{{route('admin.notifications.index')}}" class="nav-link">
+         <span class="badge badge-danger">{{auth()->user()->unreadNotifications->count()}}</span>
+            <i class="fa fa-bell"></i>
+        </a>
+      </li>
       <li class="nav-item active">
                                         <!--irá procurar o form.logout-->
         <a href="#" class="nav-link" onclick="event.preventDefault();

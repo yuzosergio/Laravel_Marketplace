@@ -24,20 +24,20 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'          => 'required',
-            'description'   => 'required|min:10',
-            'body'          => 'required',
-            'price'         => 'required',
-            //coloca se asterisco na frente quando for dizer que vai pegar todas as imagens de um array que foi declarado em um view
-            'photos.*'        => 'image',
+            'name' => 'required',
+            'description' => 'required|min:30',
+            'body' => 'required',
+            'price' => 'required',
+	        'photos.*' => 'image'
         ];
-        
     }
-    public function messages(){
-        return[
-            'min' => 'Campo deve ter no minimo :min caracteres',
-            'required' => 'Este campo é obrigatório',
-            'image' => 'Arquivo não é uma imagem valida'
-        ];
+
+    public function messages()
+    {
+    	return [
+    		'required' => 'Este campo é obrigatório!',
+		    'min'      => 'Campo deve ter no mínimo :min caracteres',
+		    'image'    => 'Arquivo não é uma imagem válida!'
+	    ];
     }
 }
