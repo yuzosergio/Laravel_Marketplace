@@ -18,7 +18,7 @@ class User extends Authenticatable
 
      /*Defina quais dados pode ser inserido pelo routes "create"*/ 
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','role'
     ];
 
     /**

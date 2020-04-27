@@ -30,9 +30,9 @@ Route::prefix('checkout')->name('checkout.')->group(function(){
 });
 
 
-
-Route::group(['middleware' => ['auth']], function(){
-	Route::get('my-orders', 'UserOrderController@index')->name('user.orders')->middleware('auth');
+Route::get('my-orders', 'UserOrderController@index')->name('user.orders')->middleware('auth');
+Route::group(['middleware' => ['auth', 'access.control.store.admin']], function(){
+	
 	
 	Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function(){
 

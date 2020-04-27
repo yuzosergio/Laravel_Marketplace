@@ -82,3 +82,4 @@
         $('#price').maskMoney({prefix: '', allowNegative: false, thousands: '.', decimal: ','});
     </script>
 @endsection
+

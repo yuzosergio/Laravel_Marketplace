@@ -41,12 +41,22 @@
                 <div class="my-2 my-lg-0">
                     <ul class="navbar-nav mr-auto">
                         @auth
+                        
                         <li class="nav-item @if(request()->is('my-orders')) active @endif">
                             
                             <a href="{{route('user.orders')}}" class="nav-link">Meus Pedidos</a>
                         </li>
+
+                        <li class="nav-item active">
+                            <!--irá procurar o form.logout-->
+                            <a href="#" class="nav-link" onclick="event.preventDefault();
+                                                            document.querySelector('form.logout').submit();" >Logout</a>
+                            <form action="{{route('logout')}}" method="POST" style="display:none;" class="logout">
+                            @csrf
+                            </form>
+                        </li>
                         @endauth
-                       
+
                         <li class="nav-item">
                             <a href="{{route('cart.index')}}" class="nav-link">
                                 <!--Cria um contador ao lado do carrinho-->
@@ -68,7 +78,7 @@
     @include('flash::message')
     @yield('content')
 </div>
-<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
 <script src="{{asset('js/app.js')}}"></script>
 @yield('scripts')
 </body>

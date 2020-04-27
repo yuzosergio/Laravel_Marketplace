@@ -24,8 +24,8 @@ class CreateTableProducts extends Migration
             $table->string('slug');
 
             $table->timestamps();
-
-            $table->foreign('store_id')->references('id')->on('stores');
+                                                                                    //deleta a loja mesmo tendo um produto cadastrado
+            $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
         });
     }
 

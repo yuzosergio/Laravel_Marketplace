@@ -18,7 +18,7 @@ class CartController extends Controller
         //caso o usuario altere o slug pelo inspecionar, redireciona ao single
         $product = \App\Product::whereSlug($productData['slug']);
 
-        if(!$product->count() || $productData['amount'] == 0) 
+        if(!$product->count() || $productData['amount'] <= 0) 
             return redirect()->route('home');
             
         //compara os dados do banco e a do request para quando o usuario alterar os dados nome ou preço, passa os dados do banco independentemente
