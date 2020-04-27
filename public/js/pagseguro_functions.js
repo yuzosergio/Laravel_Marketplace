@@ -1,4 +1,5 @@
-function proccessPayment(token){
+function proccessPayment(token)
+{
     let data = {
         card_token: token,
         hash: PagSeguroDirectPayment.getSenderHash(),
@@ -12,44 +13,43 @@ function proccessPayment(token){
         url: urlProccess,
         data: data,
         dataType: 'json',
-        success: function(res){
-           toastr.success(res.data.message, 'Sucesso!');
-           window.location.href = `${urlThanks}?order=${res.data.order}`;
+        success: function(res) {
+            toastr.success(res.data.message, 'Sucesso');
+            window.location.href = `${urlThanks}?order=${res.data.order}`;
         }
     });
 }
 
-//parcelamento
-function getInstallments(amount,brand){
+
+function getInstallments(amount, brand) {
     PagSeguroDirectPayment.getInstallments({
         amount: amount,
         brand: brand,
         maxInstallmentNoInterest: 0,
-        success: function(res){
+        success: function(res) {
             let selectInstallments = drawSelectInstallments(res.installments[brand]);
             document.querySelector('div.installments').innerHTML = selectInstallments;
         },
-        error: function(err){
+        error: function(err) {
             console.log(err);
         },
-        complete: function(res){
+        complete: function(res) {
 
         },
     })
 }
 
-//tela de parcelamento
 function drawSelectInstallments(installments) {
-let select = '<label>Opções de Parcelamento:</label>';
+    let select = '<label>Opções de Parcelamento:</label>';
 
-select += '<select class="form-control select_installments">';
+    select += '<select class="form-control select_installments">';
 
-for(let l of installments) {
-    select += `<option value="${l.quantity}|${l.installmentAmount}">${l.quantity}x de ${l.installmentAmount} - Total fica ${l.totalAmount}</option>`;
-}
+    for(let l of installments) {
+        select += `<option value="${l.quantity}|${l.installmentAmount}">${l.quantity}x de ${l.installmentAmount} - Total fica ${l.totalAmount}</option>`;
+    }
 
 
-select += '</select>';
+    select += '</select>';
 
-return select;
+    return select;
 }
