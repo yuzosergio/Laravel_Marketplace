@@ -23,7 +23,7 @@ class CartController extends Controller
             
         //compara os dados do banco e a do request para quando o usuario alterar os dados nome ou preço, passa os dados do banco independentemente
         $product = array_merge($productData, 
-                                $product->first(['name', 'price', 'store_id'])->toArray());
+                                $product->first(['id', 'name', 'price', 'store_id'])->toArray());
 
         //verificar se existe sessão para os produtos
         if(session()->has('cart')){

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Payment\PagSeguro\CreditCard;
+use App\Payment\PagSeguro\Notification;
 use App\UserOrder;
 use App\Store;
+use Ramsey\Uuid\Uuid;
 
 class CheckoutController extends Controller
 {
@@ -41,7 +43,7 @@ class CheckoutController extends Controller
         $user = auth()->user();
         $cartItems = session()->get('cart');
         $stores = array_unique(array_column($cartItems, 'store_id'));
-        $reference = 'XPTO';
+        $reference = Uuid::uuid4();
 
         $creditCardPayment = new CreditCard($cartItems, $user, $dataPost, $reference);
         $result = $creditCardPayment->doPayment();
@@ -85,6 +87,37 @@ class CheckoutController extends Controller
 
     public function thanks(){
         return view('thanks');
+    }
+
+    public function notification(){
+        try{
+        $notification = new Notification();
+
+        $notification = $notification->getTransaction();
+        
+        $reference = base64_decode($notification->getReference());
+        //Atualizar o pedido do usuario
+        $userOrder = UserOrder::whereReference($reference);
+        $userOrder->update([
+            'pagseguro_status' => $notification->getStatus()
+        ]);
+        //comentario sobre o pedido pago...
+
+        if($notification->getStatus() == 3) {
+            //liberar o pedido do usuario..., atualizar o status do pedido para em separação
+
+            //notificar o usuario que o pedido foi pago...
+
+            //Notificar a loja da confirmação do pedido...
+        }
+
+        return response()->json([], 204);
+        }catch(\Exception $e){
+
+            $message = env('APP_DEBUG') ? $e->getMessage() : '';
+            return response()->json(['error' => $message], 500);
+        }
+        
     }
 
     private function makePagSeguroSession(){

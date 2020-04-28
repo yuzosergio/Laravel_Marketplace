@@ -20,12 +20,13 @@ class CreditCard{
 
 
         $creditCard->setReceiverEmail(env('PAGSEGURO_EMAIL'));
-        $creditCard->setReference($this->reference);
+        //para solucionar o problema do id não permitido em http post passa base64_encode
+        $creditCard->setReference(base64_encode($this->reference));
         $creditCard->setCurrency("BRL");
 
         foreach($this->items as $item) {
 			$creditCard->addItems()->withParameters(
-				$this->reference,
+				$item['id'],
 				$item['name'],
 				$item['amount'],
 				$item['price']
